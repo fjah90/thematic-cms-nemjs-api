@@ -38,6 +38,8 @@
     "mongoose": "^8.3.2",
     "morgan": "^1.10.0",
     "sinon": "^17.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "winston": "^3.13.0"
   }
 }
