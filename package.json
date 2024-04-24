@@ -1,0 +1,26 @@
+{
+  "name": "thematic-cms-nemjs-api",
+  "version": "1.0.0",
+  "description": "REST API for thematic CMS with NodeJs, ExpressJs, Mongodb.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fjah90/thematic-cms-nemjs-api.git"
+  },
+  "keywords": [
+    "RestAPI",
+    "NodeJs",
+    "Express",
+    "Mongodb",
+    "SOLID Architecture"
+  ],
+  "author": "Fernando Aponte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fjah90/thematic-cms-nemjs-api/issues"
+  },
+  "homepage": "https://github.com/fjah90/thematic-cms-nemjs-api#readme"
+}
