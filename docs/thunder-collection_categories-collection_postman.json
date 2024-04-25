@@ -1,0 +1,176 @@
+{
+    "info": {
+        "_postman_id": "da5ab46e-6fde-4a05-9218-abe6c4ae95e4",
+        "name": "categories-collection",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "/api/v1/categories",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/categories",
+                    "path": [
+                        "api",
+                        "v1",
+                        "categories"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\r\n  \"name\": \"My New Category 2\",\r\n  \"contentType\": \"images\"\r\n}\r\n"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6ImFkbWluIiwiaWF0IjoxNzE0MDI0NzUzLCJleHAiOjE3MTQxMTExNTN9.HsVMafgW8sDNIAg-GSyrIgRBDxJ1NMahzPldiETUR5Y",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/categories",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/categories",
+                    "path": [
+                        "api",
+                        "v1",
+                        "categories"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6InJlYWRlciIsImlhdCI6MTcxNDAyMDE2NSwiZXhwIjoxNzE0MTA2NTY1fQ.JKxv005d7vD1yfkJ0IrXNokl4FU0UzIx_gwk-e6swNE",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/categories/id",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/categories/6629e88c9cac8311511ee288",
+                    "path": [
+                        "api",
+                        "v1",
+                        "categories",
+                        "6629e88c9cac8311511ee288"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6ImFkbWluIiwiaWF0IjoxNzE0MDE5NzY5LCJleHAiOjE3MTQxMDYxNjl9.rXw-x0yqyaYIMMaT5c9fUD0wIm51L_4PW9YeSXcanbk",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/categories/id",
+            "request": {
+                "method": "PUT",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/categories/6629e8a53cf6fd5ce0b04715",
+                    "path": [
+                        "api",
+                        "v1",
+                        "categories",
+                        "6629e8a53cf6fd5ce0b04715"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\r\n  \"name\": \"My Images 2\",\r\n  \"contentType\": \"images\"\r\n}\r\n"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6InJlYWRlciIsImlhdCI6MTcxNDAyMDE2NSwiZXhwIjoxNzE0MTA2NTY1fQ.JKxv005d7vD1yfkJ0IrXNokl4FU0UzIx_gwk-e6swNE",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/categories/id",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/categories/6629e8a53cf6fd5ce0b04715",
+                    "path": [
+                        "api",
+                        "v1",
+                        "categories",
+                        "6629e8a53cf6fd5ce0b04715"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQwMTE2NjQsImV4cCI6MTcxNDA5ODA2NH0.mihgf5PKApGCQXt7dGC6eqdaxZYz6rIB3NF1-znsvwc",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

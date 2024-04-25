@@ -1,0 +1,166 @@
+{
+    "info": {
+        "_postman_id": "8f7bd28b-7568-4cc1-8804-b43b6a497261",
+        "name": "content-collection",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "/api/v1/content",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/content",
+                    "path": [
+                        "api",
+                        "v1",
+                        "content"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\r\n  \"title\": \"Your Content Title\",\r\n  \"description\": \"Optional content description\",\r\n  \"url\": \"https://www.example.com/your-content-url\",\r\n  \"topic\": [\"6629f158be1617ea9a8cb793\"],\r\n  \"createdBy\": [\"6629a19088d5175a64f95103\"]\r\n}"
+                }
+            }
+        },
+        {
+            "name": "/api/v1/content",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/content",
+                    "path": [
+                        "api",
+                        "v1",
+                        "content"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6InJlYWRlciIsImlhdCI6MTcxNDAyMDE2NSwiZXhwIjoxNzE0MTA2NTY1fQ.JKxv005d7vD1yfkJ0IrXNokl4FU0UzIx_gwk-e6swNE",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/content/id",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/content/6629f6c962b93fbe399d38d4",
+                    "path": [
+                        "api",
+                        "v1",
+                        "content",
+                        "6629f6c962b93fbe399d38d4"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6ImFkbWluIiwiaWF0IjoxNzE0MDE5NzY5LCJleHAiOjE3MTQxMDYxNjl9.rXw-x0yqyaYIMMaT5c9fUD0wIm51L_4PW9YeSXcanbk",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/content/id",
+            "request": {
+                "method": "PUT",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/content/6629f6c962b93fbe399d38d4",
+                    "path": [
+                        "api",
+                        "v1",
+                        "content",
+                        "6629f6c962b93fbe399d38d4"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"name\": \"My Awesome Topic 2\",\n  \"categories\": [\n    \"6629f158be1617ea9a8cb793\"\n  ],\n  \"permissions\": {\n    \"texts\": true,\n    \"videos\": true,\n    \"images\": true\n  }\n}"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVHlwZSI6InJlYWRlciIsImlhdCI6MTcxNDAyMDE2NSwiZXhwIjoxNzE0MTA2NTY1fQ.JKxv005d7vD1yfkJ0IrXNokl4FU0UzIx_gwk-e6swNE",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/api/v1/content/id",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://localhost:3005/api/v1/content/662a0521acbe97afc6372de5",
+                    "path": [
+                        "api",
+                        "v1",
+                        "content",
+                        "662a0521acbe97afc6372de5"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3005"
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQwMTE2NjQsImV4cCI6MTcxNDA5ODA2NH0.mihgf5PKApGCQXt7dGC6eqdaxZYz6rIB3NF1-znsvwc",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
