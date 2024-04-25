@@ -4,7 +4,7 @@
   "description": "REST API for thematic CMS with NodeJs, ExpressJs, Mongodb.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node --env-file .env src/index.js",
+    "start": "cross-env NODE_ENV=production node --env-file .env src/index.js",
     "start:dev": "node --env-file .env --watch src/index.js",
     "test": "mocha test/*.js",
     "lint": "eslint src/**/*.js"
