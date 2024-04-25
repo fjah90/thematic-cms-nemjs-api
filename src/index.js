@@ -3,12 +3,12 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
 // Import configuration required modules
 const appConfig = require('./config/AppConfig');
 const swagger = require('./config/Swagger');
 const connectDB = require('./config/DatabaseConfig');
 const helmetModule = require('./config/HelmetConfig'); 
+const logger = require('./config/WistonConfig');
 
 // Import application routes
 const authRoutes = require('./routes/auth');
@@ -32,7 +32,7 @@ app.use(appConfig.apiPrefix + '/auth', authRoutes);
 
 // Error handling middleware to catch and respond to errors globally
 app.use((error, req, res, next) => {
-    console.error('Global error handler:', error);
+    logger.error('Global error handler:', error);
 
     res.status(error.statusCode || 500).json({
         message: error.message || 'Internal server error',
@@ -42,10 +42,10 @@ app.use((error, req, res, next) => {
 // setup a database connection using mongoose
 connectDB()
     .then(() => {
-        app.listen(8080, () => console.log('Servidor iniciado en el puerto 8080'));
+        app.listen(8080, () => logger.info('Communication with database server started on port 8080'));
     })
     .catch(error => {
-        console.error('Error al iniciar el servidor:', error);
+        logger.error('Error starting communication with database server:', error);
         process.exit(1);
     });
 
@@ -54,5 +54,6 @@ swagger(app);
 
 // Start Express Server
 app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+    const message = `Server started on port ${PORT}`;
+    process.env.NODE_ENV === 'production' ? console.info(message) : logger.info(message);
 });
