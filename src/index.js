@@ -1,48 +1,34 @@
+// Import required modules
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const cors = require('cors');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
+// Import configuration required modules
+const appConfig = require('./config/AppConfig');
+const swagger = require('./config/Swagger');
+const connectDB = require('./config/DatabaseConfig');
+const helmetModule = require('./config/HelmetConfig'); 
 
 // Import application routes
 const authRoutes = require('./routes/auth');
-const categoryRoutes = require('./routes/categories');
-const thematicRoutes = require('./routes/thematics');
-const contentRoutes = require('./routes/content');
+
+// Load environment variables
+const PORT = appConfig.port;
 
 // Initialize Express app
 const app = express();
 
-// Load environment variables
-dotenv.config();
-
-// Extract environment variables
-const DB_CONNECT = process.env.DB_CONNECT;
-const PORT = process.env.PORT || 5000;
-
-// Connect to MongoDB
-mongoose.connect(DB_CONNECT, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-mongoose.connection.on('error', (error) => {
-    console.error('Error connecting to MongoDB:', error);
-    process.exit(1);
-});
-
-mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB database!');
-});
-
 // Configure Express Middleware
 app.use(express.json());
+helmetModule(app);
 app.use(cors());
-app.use(helmet());
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Register API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/thematics', thematicRoutes);
-app.use('/api/content', contentRoutes);
+app.use(appConfig.apiPrefix + '/auth', authRoutes);
 
 // Error handling middleware to catch and respond to errors globally
 app.use((error, req, res, next) => {
@@ -52,6 +38,19 @@ app.use((error, req, res, next) => {
         message: error.message || 'Internal server error',
     });
 });
+
+// setup a database connection using mongoose
+connectDB()
+    .then(() => {
+        app.listen(8080, () => console.log('Servidor iniciado en el puerto 8080'));
+    })
+    .catch(error => {
+        console.error('Error al iniciar el servidor:', error);
+        process.exit(1);
+    });
+
+// Mount Swagger
+swagger(app);
 
 // Start Express Server
 app.listen(PORT, () => {
