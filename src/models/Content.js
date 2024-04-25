@@ -1,0 +1,37 @@
+const mongoose = require('mongoose');
+
+const contentSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    description: {
+        type: String,
+        trim: true,
+    },
+    url: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (value) => {
+                return /^(https?|ftp):\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(value);
+            },
+            message: 'Invalid content URL',
+        },
+    },
+    topic: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Topic', // Reference to the 'Topic' model
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the 'User' model
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+module.exports = mongoose.model('Content', contentSchema);

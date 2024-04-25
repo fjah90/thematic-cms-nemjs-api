@@ -1,0 +1,53 @@
+{
+  "name": "thematic-cms-nemjs-api",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "REST API for thematic CMS with NodeJs, ExpressJs, Mongodb.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node --env-file .env src/index.js",
+    "start:dev": "node --env-file .env --watch src/index.js",
+    "test": "mocha test/*.js",
+    "lint": "eslint src/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fjah90/thematic-cms-nemjs-api.git"
+  },
+  "keywords": [
+    "RestAPI",
+    "NodeJs",
+    "Express",
+    "Mongodb",
+    "SOLID Architecture"
+  ],
+  "author": "Fernando Aponte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fjah90/thematic-cms-nemjs-api/issues"
+  },
+  "homepage": "https://github.com/fjah90/thematic-cms-nemjs-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-jwt": "^8.4.1",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2",
+    "morgan": "^1.10.0",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
+    "sinon": "^17.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
