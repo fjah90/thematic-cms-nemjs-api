@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const joi = require('joi');
 const jwt = require('jsonwebtoken');
+const logger = require('../config/WistonConfig');
 
 const register = async (req, res) => {
     try {
@@ -10,7 +11,7 @@ const register = async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         // Check for existing user with the same email (optional)
-        const existingEmail= await User.findOne({ email: req.body.email });
+        const existingEmail = await User.findOne({ email: req.body.email });
         if (existingEmail) return res.status(400).send('Email already in use');
 
         // Create a new user
@@ -25,18 +26,18 @@ const register = async (req, res) => {
 
         // Generate a JWT token
         const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_TIME });
-       
+
         // Send successful response with token
         res.send({ message: 'User created successfully', token });
 
     } catch (error) {
-        // console.error(error);
+        // logger.error(error);
         if (error.code === 11000) {
             // Handle duplicate key error
             return res.status(400).send('Username already in use');
         } else {
             // Handle other errors
-            console.error(error);
+            logger.error(error);
             res.status(500).send('Internal server error');
         }
     }
@@ -71,12 +72,12 @@ const login = async (req, res) => {
 
         // Generate a JWT token
         const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_TIME });
-       
+
         // Send successful response with token
         res.send({ message: 'Login successful', token });
 
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal server error');
     }
 };
@@ -91,57 +92,85 @@ function validateLogin(user) {
     return schema.validate(user);
 }
 
-
 const getUsers = async (req, res) => {
-    console.info('Users Route');
+    logger.info('Users Route');
 
     try {
-        const users = await User.find(); // Fetch all users
+        // const users = await User.find({ isDeleted: false }); // Fetch all users
+        const users = await User.find({
+            $or: [
+                { isDeleted: { $exists: false } }, // Check for missing isDeleted field
+                { isDeleted: false }, // Filter for users with isDeleted set to false
+            ],
+        });
 
         res.send(users); // Send all user data (consider security implications)
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal server error');
     }
 };
 
-// authController.js (assuming this is the location)
 const getUser = async (req, res) => {
-    console.info('User Route');
+    logger.info('Get User by ID Route');
 
     try {
-        const users = await User.find(); // Fetch all users
+        // Extract the ID from the request parameters
+        const userId = req.params.id;
 
-        res.send(users); // Send all user data (consider security implications)
+        // Find the user with the specified ID
+        const user = await User.findById(userId);
+
+        // Check if user exists
+        if (!user) {
+            return res.status(404).send('User not found'); // Handle non-existent user
+        }
+
+        res.send(user); // Send only the requested user data
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal server error');
     }
 };
+
 
 const updateUser = async (req, res) => {
-    console.info('User update Route');
+    logger.info('User update Route');
 
     try {
         const userId = req.params.id; // Get user ID from request parameter
         const updates = req.body; // Get update data from request body
 
+        // Validate the request body with Joi
+        const { error } = validateUserUpdated(updates);
+        if (error) {
+            return res.status(400).send({ message: error.details[0].message });
+        }
         // Check if password is being updated
         if (updates.password) {
             // Validate password by comparing hashes
             const existingUser = await User.findById(userId);
             if (!existingUser) return res.status(404).send('User not found');
 
-            // Hash the new password
-            const salt = await bcrypt.genSalt(10); // Generate salt with a cost factor of 10
-            const hashedNewPassword = await bcrypt.hash(updates.password, salt); // Hash the new password using the salt
+            const isSameHashedPass = await updates.password === existingUser.password;
 
-            // Compare hashes
-            const isPasswordValid = await bcrypt.compare(hashedNewPassword, existingUser.password);
-            if (!isPasswordValid) return res.status(401).send('Incorrect password');
+            if (isSameHashedPass) {
+                // Password is already hashed, no need to re-hash
+                logger.info('Password is already hashed and is the same');
+                delete updates.password
+            } else {
+                const isSamePassword = await bcrypt.compare(updates.password, existingUser.password);
+                if (isSamePassword) {
+                    logger.info('Password is the same')
+                    delete updates.password;
+                } else {
+                    // Password is not hashed, proceed with hashing
+                    const salt = await bcrypt.genSalt(10);
+                    const hashedNewPassword = await bcrypt.hash(updates.password, salt);
+                    updates.password = hashedNewPassword;
+                }
+            }
 
-            // Password is valid, proceed with updating
-            delete updates.password; // Remove password from updates object (bcrypt already hashed it)
         }
 
         // Update the user with the modified updates object
@@ -149,28 +178,54 @@ const updateUser = async (req, res) => {
 
         if (!user) return res.status(404).send('User not found');
 
-        res.send(user); // Send updated user data
+        res.send({ message: 'User update successfully' });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal server error');
     }
 };
 
+function validateUserUpdated(user) {
+    const schema = joi.object({
+        name: joi.string().min(3).max(50).optional(),
+        lastName: joi.string().min(1).max(50).optional(), // Make last name optional
+        username: joi.string().min(3).max(20).optional(),
+        email: joi.string().email().lowercase().optional(),
+        password: joi.string().min(6).optional(),
+        userType: joi.string().valid('admin', 'creator', 'reader').optional(), // Validate user type
+    });
+
+    return schema.validate(user);
+}
+
 const deleteUser = async (req, res) => {
-    console.info('User delete Route');
+    logger.info('User delete Route');
 
     try {
-        const userId = req.params.id; // Get user ID from request parameter
-
-        const user = await User.findByIdAndDelete(userId); // Find and delete user
+        const userId = req.params.id;
+        const user = await User.findById(userId);
 
         if (!user) return res.status(404).send('User not found');
 
+        await user.deleteUser(); // Soft delete the user
         res.send({ message: 'User deleted successfully' }); // Send success message
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal server error');
     }
 };
 
-module.exports = { login, register, getUsers, getUser, updateUser, deleteUser }; // Export the function
+const getUserDeletes = async (req, res) => {
+    logger.info('Users Deletes Route');
+
+    try {
+        const users = await User.find({ isDeleted: true });; // Fetch all users
+
+        res.send(users); // Send all user data (consider security implications)
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send('Internal server error');
+    }
+};
+
+module.exports = { login, register, getUsers, getUserDeletes, getUser, updateUser, deleteUser}; // Export the function
