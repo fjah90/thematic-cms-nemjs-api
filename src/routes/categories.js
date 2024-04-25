@@ -8,12 +8,12 @@ const verifyTokenAndPermissions = require('../middlewares/verifyTokenAndPermissi
 const CategoryController = require('../controllers/CategoryController'); // Assuming controllers folder
 
 // Protect all child routes under '/categories'
-router.use('/', verifyTokenAndPermissions);
+// router.use('/', verifyTokenAndPermissions);
 
 // Define Category routes
 router.post('/', CategoryController.createCategory);
-router.get('/', CategoryController.getAllCategories);
-router.get('/:id', CategoryController.getCategoryById);
+router.get('/', CategoryController.getCategories);
+router.get('/:id', CategoryController.getCategory);
 router.put('/:id', CategoryController.updateCategory);
 router.delete('/:id', CategoryController.deleteCategory);
 

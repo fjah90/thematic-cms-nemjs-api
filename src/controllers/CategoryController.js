@@ -80,17 +80,25 @@ exports.updateCategory = async (req, res) => {
 };
 
 // Get All Categories
-exports.getAllCategories = async (req, res) => {
+exports.getCategories = async (req, res) => {
     try {
+        // Get total count of categories
+        const categoryCount = await Category.countDocuments();
+
+        // Fetch all categories
         const categories = await Category.find();
-        res.status(200).send(categories);
+
+        res.status(200).send({
+            counts: categoryCount,
+            data: categories,
+        });
     } catch (err) {
         handleError(err, res);
     }
 };
 
 // Get Category by ID
-exports.getCategoryById = async (req, res) => {
+exports.getCategory = async (req, res) => {
     try {
         const categoryId = req.params.id;
         const category = await Category.findById(categoryId);
