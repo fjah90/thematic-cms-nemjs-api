@@ -20,17 +20,12 @@ const contentSchema = new mongoose.Schema({
             message: 'Invalid content URL',
         },
     },
-    contentType: {
-        type: String,
-        required: true,
-        enum: ['image', 'video-youtube', 'document-txt'], // Allowed content types
-    },
     topic: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Topic', // Reference to the 'Topic' model
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the 'User' model
     },
     createdDate: {
