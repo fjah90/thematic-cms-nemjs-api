@@ -44,7 +44,16 @@ const userSchema = new mongoose.Schema({
         required: true,
         enum: ['admin', 'creator', 'reader'] // Define allowed user types
     },
+    isDeleted: {
+        type: Boolean,
+        default: false, // Set default to false for active users
+    },
     //TODO: Add other fields as needed (e.g., profile picture, etc.)
 });
+//TODO: Add methods as needed restore user
+userSchema.methods.deleteUser = async function () {
+    this.isDeleted = true;
+    await this.save();
+};
 
 module.exports = mongoose.model('User', userSchema);
