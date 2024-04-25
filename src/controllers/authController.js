@@ -110,11 +110,13 @@ const getUsers = async (req, res) => {
         // Return only public user information (avoid sending sensitive data)
         const publicUsers = users.map((user) => ({
             id: user._id, // Assuming _id is the user ID
-            username: user.username, // Include appropriate public fields
+            name: user.name,
+            username: user.username,
+            email: user.email,
             userType: user.userType,
             // Exclude sensitive fields like password, email hash, etc.
         }));
-
+        logger.info(userCount);
         res.status(200).send({
             counts: userCount,
             data: publicUsers,
