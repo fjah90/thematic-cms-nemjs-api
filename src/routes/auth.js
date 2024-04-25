@@ -5,9 +5,7 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 // Import middleware
-const verifyToken = require('../middlewares/verifyToken');
-const verifyUserPermissions = require('../middlewares/verifyUserPermissions');
-const userPermissions = require('../config/UserPermissions'); // Import from sibling file
+const verifyTokenAndPermissions = require('../middlewares/verifyTokenAndPermissions');
 
 // User login
 router.post('/login', authController.login);
@@ -15,10 +13,13 @@ router.post('/login', authController.login);
 // User registration
 router.post('/register', authController.register);
 
-// Protected routes (require valid token)
-router.get('/users/', verifyToken, verifyUserPermissions(userPermissions.admin.get || userPermissions.creator.get), authController.getUsers);
-router.get('/users/:id', verifyToken, verifyUserPermissions(userPermissions.admin.get || userPermissions.creator.get), authController.getUser);
-router.put('/users/:id', verifyToken, verifyUserPermissions(userPermissions.admin.put || userPermissions.creator.put), authController.updateUser);
-router.delete('/users/:id', verifyToken, verifyUserPermissions(userPermissions.admin.delete), authController.deleteUser);
+// Protect all child routes under '/users'
+router.use('/users', verifyTokenAndPermissions);
+
+router.get('/users/', authController.getUsers);
+router.get('/users/deletes', authController.getUserDeletes);
+router.get('/users/:id', authController.getUser);
+router.put('/users/:id', authController.updateUser);
+router.delete('/users/:id', authController.deleteUser);
 
 module.exports = router;

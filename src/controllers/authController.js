@@ -25,7 +25,7 @@ const register = async (req, res) => {
         await user.save();
 
         // Generate a JWT token
-        const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_TIME });
+        const token = jwt.sign({ userType: user.userType }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_TIME });
 
         // Send successful response with token
         res.send({ message: 'User created successfully', token });
@@ -71,7 +71,7 @@ const login = async (req, res) => {
         if (!validPassword) return res.status(401).send('Invalid credentials'); // More specific message
 
         // Generate a JWT token
-        const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_TIME });
+        const token = jwt.sign({ userType: user.userType }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_TIME });
 
         // Send successful response with token
         res.send({ message: 'Login successful', token });

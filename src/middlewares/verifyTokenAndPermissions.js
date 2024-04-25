@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const userPermissions = require('../config/UserPermissions');
 
-const verifyToken = async (req, res, next) => {
+const verifyTokenAndPermissions = async (req, res, next) => {
     // Extract the token from the Authorization header
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(' ')[1];
@@ -20,8 +21,18 @@ const verifyToken = async (req, res, next) => {
             return res.status(401).json({ error: 'Token is expired' });
         }
 
-        // Extract user ID from decoded token
-        req.user = decoded.userId;
+        // Assign user permissions based on userType
+        const userType = decoded.userType || 'reader'; // Default to 'reader' if userType missing
+        const userRolePermissions = userPermissions[userType] || {};
+        
+        console.log('User permissions:', userRolePermissions);
+        const httpMethod = req.method; // Access the HTTP method
+        console.log('User attempted to access route with method:', httpMethod); // Optional logging
+        // Check permission using destructuring 
+        if (!userRolePermissions || !userRolePermissions[httpMethod]) {
+            return res.status(403).json({ error: 'Insufficient permissions' });
+        }
+        console.log(userRolePermissions[httpMethod])
 
         // Continue to the next middleware or route handler
         next();
@@ -39,4 +50,4 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-module.exports = verifyToken;
+module.exports = verifyTokenAndPermissions;

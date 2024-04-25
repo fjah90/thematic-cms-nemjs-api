@@ -1,22 +1,22 @@
 const userPermissions = {
     admin: {
-        get: true,
-        post: true,
-        put: true,
-        delete: true
+        GET: true,
+        POST: true,
+        PUT: true,
+        DELETE: true
     },
     creator: {
-        get: true,
-        post: true,
-        put: true,
-        delete: false // Creator cannot delete
+        GET: true,
+        POST: true,
+        PUT: true,
+        DELETE: false
     },
     reader: {
-        get: true,
-        post: false,
-        put: false,
-        delete: false // Reader cannot post, put, or delete
-    }
+        GET: true,
+        POST: false,
+        PUT: false,
+        DELETE: false
+    },
 };
 
 module.exports = userPermissions;
