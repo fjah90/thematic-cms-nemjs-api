@@ -8,7 +8,7 @@ const verifyTokenAndPermissions = require('../middlewares/verifyTokenAndPermissi
 const CategoryController = require('../controllers/CategoryController'); // Assuming controllers folder
 
 // Protect all child routes under '/categories'
-// router.use('/', verifyTokenAndPermissions);
+router.use('/', verifyTokenAndPermissions);
 
 // Define Category routes
 router.post('/', CategoryController.createCategory);
