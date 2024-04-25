@@ -111,6 +111,7 @@ const getUsers = async (req, res) => {
         const publicUsers = users.map((user) => ({
             id: user._id, // Assuming _id is the user ID
             username: user.username, // Include appropriate public fields
+            userType: user.userType,
             // Exclude sensitive fields like password, email hash, etc.
         }));
 
