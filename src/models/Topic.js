@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const { reader } = require('../config/UserPermissions');
-const { Schema } = mongoose;
 
-const topicSchema = new Schema({
+const topicSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -10,21 +8,21 @@ const topicSchema = new Schema({
         unique: true, // Ensure no topics have the same name
     },
     categories: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Category', // Reference to the 'Category' model
     }],
-    userPermissions: {
-        admin: {
-            read: Boolean,
-            write: Boolean,
+    permissions: {
+        images: {
+            type: Boolean,
+            default: false,
         },
-        creator: {
-            read: Boolean,
-            write: Boolean,
+        videos: {
+            type: Boolean,
+            default: false,
         },
-        reader: {
-            read: Boolean,
-            write: Boolean,
+        texts: {
+            type: Boolean,
+            default: false,
         },
     },
 });
