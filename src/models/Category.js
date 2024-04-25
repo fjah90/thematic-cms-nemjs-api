@@ -12,20 +12,6 @@ const categorySchema = new mongoose.Schema({
         required: true,
         enum: ['images', 'videos-youtube', 'documents-txt'], // Allowed content types
     },
-    permissions: {
-        images: {
-            type: Boolean,
-            default: false,
-        },
-        videos: {
-            type: Boolean,
-            default: false,
-        },
-        texts: {
-            type: Boolean,
-            default: false,
-        },
-    },
 });
 
 module.exports = mongoose.model('Category', categorySchema);
