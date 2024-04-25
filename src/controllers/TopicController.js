@@ -1,6 +1,6 @@
 const Category = require('../models/Category');
 const Topic = require('../models/Topic');
-const Joi = require('joi');
+const joi = require('joi');
 const logger = require('../config/WistonConfig');
 
 const handleError = (err, res) => {
@@ -14,16 +14,16 @@ const handleError = (err, res) => {
 };
 
 // Validation schema for creating a topic
-const createTopicSchema = Joi.object({
-    name: Joi.string().trim().required().messages({
+const createTopicSchema = joi.object({
+    name: joi.string().trim().required().messages({
         'string.empty': 'Name cannot be empty',
         'string.required': 'Name is required',
     }),
-    categories: Joi.array().items(Joi.string().length(24).hex().message('Invalid category ID')),
-    permissions: Joi.object({
-        images: Joi.boolean().optional(),
-        videos: Joi.boolean().optional(),
-        texts: Joi.boolean().optional(),
+    categories: joi.array().items(joi.string().length(24).hex().message('Invalid category ID')),
+    permissions: joi.object({
+        images: joi.boolean().optional(),
+        videos: joi.boolean().optional(),
+        texts: joi.boolean().optional(),
     }),
 });
 
@@ -85,15 +85,15 @@ exports.getTopic = async (req, res) => {
 
 
 // Validation schema for updating a topic (partial updates)
-const updateTopicSchema = Joi.object({
-    name: Joi.string().trim().optional().messages({
+const updateTopicSchema = joi.object({
+    name: joi.string().trim().optional().messages({
         'string.empty': 'Name cannot be empty',
     }),
-    categories: Joi.array().items(Joi.string().length(24).hex().message('Invalid category ID')).optional(),
-    permissions: Joi.object({
-        images: Joi.boolean().optional(),
-        videos: Joi.boolean().optional(),
-        texts: Joi.boolean().optional(),
+    categories: joi.array().items(joi.string().length(24).hex().message('Invalid category ID')).optional(),
+    permissions: joi.object({
+        images: joi.boolean().optional(),
+        videos: joi.boolean().optional(),
+        texts: joi.boolean().optional(),
     })
 });
 // Update a topic

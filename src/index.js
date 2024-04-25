@@ -14,6 +14,7 @@ const logger = require('./config/WistonConfig');
 const authRoutes = require('./routes/auth');
 const categoriesRoutes = require('./routes/categories');
 const topicRoutes = require('./routes/topic');
+const contentRoutes = require('./routes/content');
 
 // Load environment variables
 const PORT = appConfig.port;
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(appConfig.apiPrefix + '/auth', authRoutes);
 app.use(appConfig.apiPrefix + '/categories', categoriesRoutes);
 app.use(appConfig.apiPrefix + '/topic', topicRoutes);
+app.use(appConfig.apiPrefix + '/content', contentRoutes);
 
 // Error handling middleware to catch and respond to errors globally
 app.use((error, req, res, next) => {
