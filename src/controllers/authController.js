@@ -96,7 +96,10 @@ const getUsers = async (req, res) => {
     logger.info('Users Route');
 
     try {
-        // const users = await User.find({ isDeleted: false }); // Fetch all users
+        // Get total count of users (excluding deleted)
+        const userCount = await User.countDocuments({ isDeleted: false }); // Filter for non-deleted users
+
+        // Fetch users with pagination (optional)
         const users = await User.find({
             $or: [
                 { isDeleted: { $exists: false } }, // Check for missing isDeleted field
@@ -104,7 +107,17 @@ const getUsers = async (req, res) => {
             ],
         });
 
-        res.send(users); // Send all user data (consider security implications)
+        // Return only public user information (avoid sending sensitive data)
+        const publicUsers = users.map((user) => ({
+            id: user._id, // Assuming _id is the user ID
+            username: user.username, // Include appropriate public fields
+            // Exclude sensitive fields like password, email hash, etc.
+        }));
+
+        res.status(200).send({
+            counts: userCount,
+            data: publicUsers,
+        });
     } catch (error) {
         logger.error(error);
         res.status(500).send('Internal server error');
